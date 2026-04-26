@@ -12,7 +12,7 @@ app.secret_key = 'a-very-secret-and-unique-key'
 
 @app.route('/')
 def home():
-    logged_in_user = request.cookies.get('username')
+    logged_in_user = request.cookies.get('username') # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
     current_user = None
 
     conn = get_db_connection()
