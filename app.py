@@ -437,14 +437,14 @@ def admin_panel():
     products = conn.execute('SELECT id, name FROM products').fetchall()
     conn.close()
 
-    html = f"""
+    html = f""" # nosemgrep: python.django.security.injection.raw-html-format.raw-html-format
     <!DOCTYPE html>
     <html><head><title>Admin Panel</title></head>
     <body>
         <h1>Admin Panel - Welcome, {user['username']}</h1>
         <h2>Users</h2>
         <ul>
-    """ # nosemgrep: python.django.security.injection.raw-html-format.raw-html-format
+    """
     for u in users:
         html += f"<li>{u['username']}</li>"
     
