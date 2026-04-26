@@ -4,9 +4,3 @@ rules:
     message: "Flask secret key is hardcoded. Use environment variables to load secrets at runtime."
     languages: [python]
     severity: ERROR
-
-  - id: hardcoded-flask-secret-key-single
-    pattern: app.secret_key = '...'
-    message: "Flask secret key is hardcoded. Use environment variables to load secrets at runtime."
-    languages: [python]
-    severity: ERROR
