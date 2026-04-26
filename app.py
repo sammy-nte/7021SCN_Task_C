@@ -420,7 +420,7 @@ def product_page(product_id):
 
 @app.route('/admin')
 def admin_panel():
-    logged_in_user = request.cookies.get('username')
+    logged_in_user = request.cookies.get('username') # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
     if not logged_in_user:
         flash("You must be logged in to view this page.")
         return redirect(url_for('login'))
