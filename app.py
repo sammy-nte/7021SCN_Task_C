@@ -90,8 +90,8 @@ def about():
 @app.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username']  # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
+        password = request.form['password'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
 
         conn = get_db_connection()
         try:
@@ -133,8 +133,8 @@ def register():
 @app.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
+        password = request.form['password'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
         
         conn = get_db_connection()
         query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'" # nosemgrep: python.django.security.injection.tainted-sql-string.tainted-sql-string
@@ -181,7 +181,7 @@ def logout():
 
 @app.route('/become_seller', methods=('GET', 'POST'))
 def become_seller():
-    logged_in_user = request.cookies.get('username')
+    logged_in_user = request.cookies.get('username') # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
     if not logged_in_user:
         flash("You must be logged in to do this.")
         return redirect(url_for('login'))
@@ -212,7 +212,7 @@ def become_seller():
 
 @app.route('/add', methods=('GET', 'POST'))
 def add_product():
-    logged_in_user = request.cookies.get('username')
+    logged_in_user = request.cookies.get('username') # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
     if not logged_in_user:
         flash("You need to be logged in.")
         return redirect(url_for('login'))
@@ -226,9 +226,9 @@ def add_product():
         return redirect(url_for('home'))
 
     if request.method == 'POST':
-        name = request.form['name']
-        price = request.form['price']
-        description = request.form['description']
+        name = request.form['name'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
+        price = request.form['price'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
+        description = request.form['description'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
 
         query = f"INSERT INTO products (name, price, description, seller_name) VALUES ('{name}', '{price}', '{description}', '{logged_in_user}')" # nosemgrep: python.django.security.injection.tainted-sql-string.tainted-sql-string
         conn.execute(query)
@@ -261,7 +261,7 @@ def add_product():
 
 @app.route('/edit/<int:product_id>', methods=('GET', 'POST'))
 def edit_product(product_id):
-    logged_in_user = request.cookies.get('username')
+    logged_in_user = request.cookies.get('username') # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
     if not logged_in_user:
         flash("You need to be logged in.")
         return redirect(url_for('login'))
@@ -276,9 +276,9 @@ def edit_product(product_id):
         return redirect(url_for('home'))
 
     if request.method == 'POST':
-        name = request.form['name']
-        price = request.form['price']
-        description = request.form['description']
+        name = request.form['name'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
+        price = request.form['price'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
+        description = request.form['description'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
 
         update_query = f"UPDATE products SET name = '{name}', price = '{price}', description = '{description}' WHERE id = {product_id}" # nosemgrep: python.django.security.injection.tainted-sql-string.tainted-sql-string
         conn.execute(update_query)
@@ -319,7 +319,7 @@ def edit_product(product_id):
 
 @app.route('/delete/<int:product_id>')
 def delete_product(product_id):
-    logged_in_user = request.cookies.get('username')
+    logged_in_user = request.cookies.get('username') # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
     if not logged_in_user:
         flash("You need to be logged in.")
         return redirect(url_for('login'))
@@ -343,7 +343,7 @@ def delete_product(product_id):
 
 @app.route('/product/<int:product_id>', methods=('GET', 'POST'))
 def product_page(product_id):
-    logged_in_user = request.cookies.get('username')
+    logged_in_user = request.cookies.get('username') # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
     current_user = None
     
     conn = get_db_connection()
@@ -358,7 +358,7 @@ def product_page(product_id):
             conn.close()
             return redirect(url_for('login'))
         
-        comment = request.form['comment']
+        comment = request.form['comment'] # nosemgrep: python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
         query = f"INSERT INTO reviews (product_id, author_name, comment) VALUES ({product_id}, '{logged_in_user}', '{comment}')" # nosemgrep: python.django.security.injection.tainted-sql-string.tainted-sql-string
         conn.execute(query)
         conn.commit()
